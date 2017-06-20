@@ -560,16 +560,24 @@ class Client
         }
 
         curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SAFE_UPLOAD, 1); # Disables the @ symbol to upload files in post fields.
         curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFileName);
         curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFileName);
 
-        $result = curl_exec($ch);
-        curl_close($ch);
+        $parsed_url = parse_url(curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+        if ($parsed_url['scheme'] == 'https' && $parsed_url['host'] == 'doodle.com') {
 
-        return $result;
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+            return $result;
+
+        } else {
+            throw new \Exception(sprintf('The URL used is not a valid address'), 1456578290);
+        }
     }
 
     /**
