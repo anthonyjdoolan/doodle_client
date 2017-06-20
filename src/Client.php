@@ -537,6 +537,7 @@ class Client
      * @param string $relativeUrl
      * @param array $data
      * @return string
+     * @throws \Exception
      */
     protected function doRequest($method, $relativeUrl, array $data)
     {
